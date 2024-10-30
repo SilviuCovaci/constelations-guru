@@ -1,0 +1,44 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Upload an Image for Constellation Detection</h2>
+    <form action="/yolo-upload-image" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">Upload Image</button>
+    </form>
+
+</div>
+
+<div class="container">
+    {% if result %}    
+        <!-- Afișează numele constelațiilor -->
+        <h2>Constelații Detectate1:</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Constelație</th>
+                    <th>Confidență</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for constellation in detected_constellations %}
+                <tr>
+                    <td class="text-white">{{ constellation['name'] }}</td>
+                    <td class="text-white">{{ constellation['confidence'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- 
+        <img src="data:image/jpeg;base64,{{ image_base64 }}" alt="Constelații Detectate" width="640">
+         -->
+    {% else %}
+        <h2>Nu s-au detectat constelatii</h2>
+    {% endif %}
+
+    
+
+</div>
+{% endblock %}

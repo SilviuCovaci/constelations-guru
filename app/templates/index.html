@@ -1,0 +1,37 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+
+<div class="container">
+    
+    <h2>Sistem inteligent pentru detectarea galaxiilor</h2>
+    <button class="button" onclick="callProject1()">Detect Constelation With Yolo</button>
+    <button class="button" onclick="callProject2()">Run Project 2</button>
+    <button class="button" onclick="callProject3()">Run Project 3</button>
+</div>
+
+<script>
+    // Funcții apelare API pentru butoane
+    async function callProject1() {
+        /*const response = await fetch('/project1/do_something');
+        const data = await response.json();
+        alert(data.message);*/
+        document.location.href = '/yolo';
+    }
+    
+    async function callProject2() {
+        const response = await fetch('/project2/do_something');
+        const data = await response.json();
+        alert(data.message);
+    }
+    
+    async function callProject3() {
+        const response = await fetch('/project3/do_something');
+        const data = await response.json();
+        alert(data.message);
+    }
+
+
+</script>
+{% endblock %}
