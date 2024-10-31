@@ -2,6 +2,7 @@ from ultralytics import YOLO
 import os
 import cv2
 import numpy as np
+import pandas as pd
 
 constelation_yolo_model = None
 
@@ -9,7 +10,7 @@ save_dir = os.path.dirname(os.path.abspath(__file__)) + os.sep + '..' + os.sep +
 
 def load_model():
     current_folder = os.path.dirname(os.path.abspath(__file__))
-    model = YOLO(current_folder + os.sep + 'constellation.pt')
+    model = YOLO(current_folder + os.sep + '..' + os.sep + '..' + os.sep + 'models' + os.sep +'constellation_yolo8.pt')
     return model
 
 def predict_image(image):
@@ -20,7 +21,7 @@ def predict_image(image):
         constelation_yolo_model = load_model()
         
     # Realizează predicția
-    results = constelation_yolo_model(image, save=True, save_dir=save_dir, project="temp", name='constelations')
+    results = constelation_yolo_model(image, save=True, save_dir=save_dir, project="temp", name='constelations_yolo')
     
     
     return process_result(results);
@@ -29,8 +30,7 @@ def process_result(results):
     
     
     result = results[0]
-    print(result.names)
-    print("")
+    
     class_names = result.names
 
     detected_constellations = []
@@ -57,18 +57,22 @@ def process_result(results):
         for item in detected_constellations
     ], dtype=[("name", "U20"), ("class_id", "i4"), ("confidence", "f4"), ("bounding_box", "4i4")])
 
-    print(detected_constellations);
     output_img_path = results[0].save_dir + os.sep  +results[0].path
     return detected_constellations, output_img_path;
 
 if __name__=='__main__': # a simple test of this class
-    img = cv2.imread(os.path.dirname(os.path.abspath(__file__)) + '\..\..\..\\star-2630050_1280.jpg')
+    img = cv2.imread(os.path.dirname(os.path.abspath(__file__)) + '/../../../test_img/star-2630050_1280.jpg')
     detected_constellations, output_img = predict_image(img)
     
     if (len(detected_constellations)>0):
         print("Constelație detectată!", detected_constellations);
-        img = cv2.imread(output_img);
-        cv2.imshow("Constelatii:", img)
-        cv2.waitKey(0)
+        # Transformă lista de dicționare într-un DataFrame
+        df = pd.DataFrame(detected_constellations[['name', 'confidence']])
+        detected_constellations = df.groupby('name').aggregate({'confidence': 'max'}).sort_values(by='confidence').reset_index()
+        print(detected_constellations.head())
+        print("JSON:", detected_constellations)
+        #img = cv2.imread(output_img);
+        #cv2.imshow("Constelatii:", img)
+        #cv2.waitKey(0)
     else:
         print("Nu a fost detectată nicio constelație.")

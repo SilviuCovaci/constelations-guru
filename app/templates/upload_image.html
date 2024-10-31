@@ -1,44 +1,119 @@
 {% extends "main.html" %}
 
 {% block content %}
-<div class="container">
-    <h2>Upload an Image for Constellation Detection</h2>
-    <form action="/yolo-upload-image" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
-        <button type="submit">Upload Image</button>
-    </form>
-
-</div>
 
 <div class="container">
-    {% if result %}    
-        <!-- Afișează numele constelațiilor -->
-        <h2>Constelații Detectate1:</h2>
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Constelație</th>
-                    <th>Confidență</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for constellation in detected_constellations %}
-                <tr>
-                    <td class="text-white">{{ constellation['name'] }}</td>
-                    <td class="text-white">{{ constellation['confidence'] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+    <form action="/compare-upload-image" method="post" enctype="multipart/form-data">
         
-        <!-- 
-        <img src="data:image/jpeg;base64,{{ image_base64 }}" alt="Constelații Detectate" width="640">
-         -->
-    {% else %}
-        <h2>Nu s-au detectat constelatii</h2>
-    {% endif %}
-
-    
-
+        <div class="float-start" style="width:700px;text-align:left">
+            <h4>Detectare constelatii din imagini folosind  diverse metode</h4>
+        </div>
+        <div class="float-end">
+            <div >
+                <input class="form-control float-start" type="file" id="formFile" name="image" accept="image/*" required style="width:400px">
+                <button type="submit" class="btn btn-primary float-end">Upload</button>
+            </div>
+        </div>
+    </form>
 </div>
+
+{% if (results) %}   
+    {% set titles = {
+        "yolo": "Detectare constelatii din imagini folosind  model Yolo", 
+        "cnn": "Detectare constelatii din imagini folosind  model CNN",
+        "swin": "Analiza prezenta constelatii in imagini folosing SWIN Transformers",
+        "rnn": "Analiza prezenta constelatii in imagini folosing RNN"
+    }%}
+    
+    <div class="container mt-4 w-100">
+        <div class="row">
+            <div class="col-12">            
+                <div class="row">
+                    {% for method in ['yolo', 'cnn'] %}
+                    <div class="col-6"> 
+                        <p>{{titles[method]}}    
+                    </div>
+                    {% endfor %} 
+                </div>
+                <div class="row">
+                    {% for method in ['yolo', 'cnn'] %}
+                    <div class="col-6">                         
+                        {% if (results[method]['result'] == True) %}   
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Constelație</th>
+                                    <th>Confidență</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for constellation in results[method]['detected_constellations'] %}
+                                <tr>
+                                    <td>{{ constellation['name'] }}</td>
+                                    <td>{{ constellation['confidence'] }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {%else%}
+                        <p>Nu s-au gasit constelatii</p>
+                        {% endif %}  
+                        {% if results[method]['image_base64'] %}   
+                        <img src="{{ results[method]['image_base64'] }}" alt="Constelații Detectate" width="100%">
+                        {% endif %}  
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        
+        </div>
+    </div>    
+    <div class="container mt-4 w-100">
+        <div class="row">
+            <div class="col-12">            
+                <div class="row">
+                    {% for method in ['rnn', 'swin'] %}
+                    <div class="col-6"> 
+                        <p>{{titles[method]}}    
+                    </div>
+                    {% endfor %} 
+                </div>
+                <div class="row">
+                    {% for method in ['rnn', 'swin'] %}
+                    <div class="col-6">                         
+                        {% if (results[method]['result'] == True) %}   
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Constelație</th>
+                                    <th>Confidență</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for constellation in results[method]['detected_constellations'] %}
+                                <tr>
+                                    <td>{{ constellation['name'] }}</td>
+                                    <td>{{ constellation['confidence'] }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {%else%}
+                        <p>Nu s-au gasit constelatii</p>
+                        {% endif %}   
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>        
+        </div>
+    </div>
+{% endif %}  
+
+  
+
+
+<script>
+
+</script>
 {% endblock %}

@@ -5,31 +5,26 @@
 
 <div class="container">
     
-    <h2>Sistem inteligent pentru detectarea galaxiilor</h2>
-    <button class="button" onclick="callProject1()">Detect Constelation With Yolo</button>
-    <button class="button" onclick="callProject2()">Run Project 2</button>
-    <button class="button" onclick="callProject3()">Run Project 3</button>
+    <h2>Sistem inteligent pentru detectarea constelatiilor</h2>
+    <div class="d-grid gap-2 w-200">
+        <button class="button btn-primary" onclick="callDetectFromImage()">Detectare Constelatii din imagini</button>
+        <button class="button btn-primary" onclick="callSistemExpert()">Sistem Expert</button>
+    </div>
 </div>
 
 <script>
     // Funcții apelare API pentru butoane
-    async function callProject1() {
-        /*const response = await fetch('/project1/do_something');
-        const data = await response.json();
-        alert(data.message);*/
-        document.location.href = '/yolo';
+    async function callDetectFromImage() {
+        document.location.href = '/compare-upload-image';
+    }
+
+    // Funcții apelare API pentru butoane
+    async function callYolo() {
+        document.location.href = '/compare-upload-image';
     }
     
-    async function callProject2() {
-        const response = await fetch('/project2/do_something');
-        const data = await response.json();
-        alert(data.message);
-    }
-    
-    async function callProject3() {
-        const response = await fetch('/project3/do_something');
-        const data = await response.json();
-        alert(data.message);
+    async function callSistemExpert() {
+        document.location.href = '/system-expert';
     }
 
 

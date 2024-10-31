@@ -1,0 +1,160 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h2 class="text-center" >Identificare Constelații</h2>
+    <br>
+    <div style="display: flex; justify-content: space-between;align-items: center;vertically-align:middle">
+        <div class="me-3">
+            <p>Acesta este un sistem expert pentru identificare constelatiilor</p>
+        </div>
+        <div width="100px" class="float-end">
+            <button id="btn_start" class="btn btn-primary mx-2 float-end" onclick="fetchQuestion(0)">Start</button>
+            <button id="btn_reset" class="btn btn-secondary mx-2 float-end d-none" onclick="fetchQuestion(0)">Reset</button>
+        </div>        
+    </div>
+</div>
+
+<div class="container mt-5 d-none" id="questionContainer">
+    
+    <div id="questionDiv" class="mt-4 font-bold font-size-15"></div>
+    <div id="answersDiv" class="mt-4">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center;vertically-align:middle">
+                <div class="me-3">
+                Choose your answer:
+                </div>
+                <div class="form-check" style="margin-right: 20px;">
+                    <input class="form-check-input" type="radio" name="answer" id="yes" value="yes">
+                    <label class="form-check-label" for="yes">Yes</label>
+                </div>
+                <div class="form-check" style="margin-right: 20px;">
+                    <input class="form-check-input" type="radio" name="answer" id="no" value="no">
+                    <label class="form-check-label" for="no">No</label>
+                </div>
+                <div class="form-check" style="margin-right: 20px;">
+                    <input class="form-check-input" type="radio" name="answer" id="dontKnow" value="dontKnow">
+                    <label class="form-check-label" for="dontKnow">I don't know</label>
+                </div>
+            </div>
+            <div>
+                <button id="btn_response" class="btn btn-primary mx-2 float-start" onclick="fetchQuestion(1)">Raspunde</button>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 d-none" id="istoricContainer">
+    <div id="istoricDiv" class="mt-4 ">
+</div>
+
+<script>
+    var lastQuestion = null;
+    var lastConstellation = null;
+
+    function getSelectedValue() {
+        const selectedOption = document.querySelector('input[name="answer"]:checked');
+        if (selectedOption) {
+            return selectedOption.value;
+        } else {
+            return false;
+        }
+        
+    }
+
+    function resetRadios() {
+        const radios = document.querySelectorAll('input[name="answer"]');
+        radios.forEach(radio => {
+            radio.checked = false;
+        });
+    }
+
+    
+    async function fetchQuestion(answer = 0) {
+        console.log("fetchQuestion====", answer);
+        if (answer == 0) {
+            lastQuestion = null;
+            lastConstellation = null;
+
+            $("#questionContainer").removeClass('d-none');
+            $("#btn_reset").removeClass('d-none');
+            
+            $("#btn_start").hide();
+
+            $("#istoricDiv").empty();
+            $("#istoricContainer").addClass('d-none');
+
+            $("#answersDiv").show();
+            resetRadios()
+
+        } else {
+            answer = getSelectedValue();
+            if (!answer) {
+                alert("Selectati o valoare");
+                return false;
+            }
+            console.log("selected value = ", answer);
+        }
+
+        let params = {
+            'answer': answer,
+            'question': lastQuestion,
+            'constellation': lastConstellation
+        };
+        console.log("params=", params)
+        const response = await fetch('/system-expert/question', { // Endpoint-ul API-ului        
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify(params) // trimite datele ca JSON
+        });
+        
+        if (response.ok) { 
+            if (lastQuestion && answer) {
+                resetRadios();
+                $("#istoricContainer").removeClass('d-none');
+                $("#istoricDiv").append("<p>" + lastQuestion + ": <b>" + answer + "</b></p>");
+            }
+            const data = await response.json();
+            questionData = data.response;
+            console.log("data=", questionData);
+            if(typeof(questionData['question'] != 'undefined') && questionData['question']) {
+                lastQuestion = questionData.question;
+                if(typeof(questionData['constellation_name'] != 'undefined')) {
+                    lastConstellation = questionData.constellation_name;
+                } else {
+                    lastConstellation = null;                    
+                }
+                document.getElementById('questionDiv').innerText = questionData.question;
+            } else {
+                lastQuestion = null;
+                $("#answersDiv").hide();
+                if (typeof(questionData['not_found']) != 'undefined') {
+                    document.getElementById('questionDiv').innerHTML = "<p class='text-danger'>Nu s-a gasit constelatia</p";
+                } else {
+                    document.getElementById('questionDiv').innerHTML = "<p>Avem un rezultat:</p>" +
+                    "<p>Constelatia Identificata este:"  + questionData['identified_constellation'] + "</p>" +
+                    "<p>Probabilitate:"  + questionData['probability'] + "</p>";
+                    "<br><br><p>Alte posibile solutii:" +  JSON.stringify(questionData['final_constelations']) + "</p>"
+                }
+                
+            }
+            
+
+
+        } else {
+            console.error("Request failed with status:", response.status);
+            if (response.status === 404) {
+                console.error("Resource not found");
+            } else if (response.status === 500) {
+                console.error("Server error");
+            }
+        }            
+        
+    }
+</script>
+
+
+{% endblock %}

@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Control Panel</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Constelations Guru</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="{{ url_for('static', path='/app.css') }}" rel="stylesheet">    
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- jQuery UI JS -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
     <style>
         /* Tema Astronomie */
         :root {
@@ -15,6 +27,8 @@
             --button-hover-color: #4f4f7d; /* Albastru deschis */
             --text-color: #f2f2f2; /* Alb pentru text */
             --star-color: rgba(255, 255, 255, 0.8); /* Alb translucid pentru stele */
+            --container-background-color: rgba(255, 255, 255, 0.05);
+            --modal-background-color: #2c2f33; 
         }
 
         body {
@@ -27,7 +41,8 @@
             #justify-content: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         header {
@@ -59,11 +74,9 @@
             transform: scale(1.05);
         }
 
-        .container {
-            text-align: center;
-            max-width: 800px;
+        .container {            
             padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--container-background-color);
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
@@ -93,20 +106,91 @@
             from { opacity: 0.3; transform: scale(1); }
             to { opacity: 1; transform: scale(1.3); }
         }
+
+        .modal-content {
+            
+        }
+        .modal-content {
+            color: #fff; /* Culoarea textului alb */
+            background: var(--modal-background-color) !important;;
+            border-radius: 10px !important;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .modal-header, .modal-footer {
+            border-color: #444; /* Culoare pentru marginile header-ului și footer-ului */
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1) !important; 
+        }
     </style>
 </head>
 <body>
 
-    <div class="starfield" id="starfield" style='border:solid 1px red'>
+    <div class="starfield" id="starfield">
     </div>
     
     <header class="text-center py-4 position-relative mb-5">
-        <h1 class="mb-0"><a href="/" class="text-white no-underline">SolarExpert Control Panel</a></h1>
+        <h1 class="mb-0"><a href="/" class="text-white no-underline">Constelations Guru</a></h1>
     </header>
     
 
     {% block content %}
     {% endblock %}
+
+    <!-- Modal -->
+    <div class="modal fade draggable" id="myModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Detectare constelatii din imagini folosind YOLO8</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="width:800; max-height: 600px; overflow-y: auto;">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                    culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    Curabitur pretium tincidunt lacus. Nulla gravida orci a odio, et viverra tellus imperdiet. 
+                    Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. 
+                    Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum 
+                    velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                </p>
+                <p>
+                    Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. 
+                    Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing 
+                    sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio 
+                    et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros 
+                    faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+                    culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                    Curabitur pretium tincidunt lacus. Nulla gravida orci a odio, et viverra tellus imperdiet. 
+                    Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. 
+                    Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum 
+                    velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                </p>
+                <p>
+                    Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. 
+                    Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing 
+                    sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio 
+                    et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros 
+                    faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh.
+                </p>
+                <!-- Poți adăuga mai mult text aici -->
+            </div>
+        </div>
+    </div>
+    </div>
 
     <script>
             // Generare stele pe fundal
@@ -124,10 +208,51 @@
     }
     
     createStars();
+
+    function openModal() {
+        const myModal = new bootstrap.Modal('#myModal', {
+            keyboard: false
+          })
+
+        myModal.show();
+        /*// reset modal if it isn't visible
+        if (!($('.modal.in').length)) {
+          $('.modal-dialog').css({
+            top: 0,
+            left: 0
+          });
+        }
+        modal = $('#myModal').modal({
+          backdrop: false,
+          show: true
+        });
+      
+        $('.modal-dialog').draggable({
+          handle: ".modal-header"
+        });
+        console.log("modal=", modal);
+        modal.show()*/
+     };
+
+      
+    function openModal2() {
+        console.log("my modal=", $("#myModal"));
+        // reset modal if it isn't visible
+        if (!($('#myModal').length)) {
+          $('.modal-dialog').css({
+            top: 0,
+            left: 0
+          });
+        }
+        $('#myModal').modal({
+          backdrop: false,
+          show: true
+        });
+      
+        $('.modal-dialog').draggable({
+          handle: ".modal-header"
+        });
+    };
     </script>
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
