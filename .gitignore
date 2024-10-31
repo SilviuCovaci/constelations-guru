@@ -1,8 +1,8 @@
 temp/.DS_Store
-# Exclude __pycache__ directory
-__pycache__/
+**/__pycache__/
 __Constellation.v1i.tensorflow/
 __Constellation.v1i.yolov8/
 temp/
 test_img/
 test_img2/
+app/models/
