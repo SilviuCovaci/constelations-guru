@@ -19,7 +19,7 @@ Acest proiect demonstrează utilizarea unor modele de învățare profundă pent
 2. **Instalați dependențele**:
 Asigurați-vă că aveți un mediu Python configurat (recomandat versiunea 3.8+).
 
-3. ** Copiere Modele **
+3. **Copiere Modele**
 Descărcați modelele folosite in demo și dezarhivați-le în directorul app/models
 
 https://drive.google.com/file/d/1zX9-593VsI902AAFRGSJBGo4ACOBgUvY/view?usp=sharing
@@ -27,4 +27,6 @@ https://drive.google.com/file/d/1zX9-593VsI902AAFRGSJBGo4ACOBgUvY/view?usp=shari
 
 ## Rulare
 Pentru a porni serverul local, folosiți comanda:
+
+```bash
 uvicorn app.main:app --reload --port=9595
