@@ -16,7 +16,7 @@ from datetime import datetime
 
 import app.modules.constelation_detect_yolo.constelation_detect as yolo_model
 import app.modules.constelation_detect_cnn.constelation_detect_cnn as cnn_model
-import app.modules.constelation_detect_rnn.constelation_detect_rnn as rnn_model
+import app.modules.constelation_detect_rnn.constelation_detect_rnn_v2 as rnn_model
 import app.modules.swin_transformer.constellation_swin_model as swin_model
 
 
