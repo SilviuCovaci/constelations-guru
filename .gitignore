@@ -9,3 +9,4 @@ app/models/
 .DS_Store
 .DS_Store
 evaluation_results.csv
+test_img1/
