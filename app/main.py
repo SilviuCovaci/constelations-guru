@@ -1,3 +1,14 @@
+"""
+Script: main.py
+Autor: Covaci Silviu
+
+Descriere: Acest cod este scriptul principal al aplicatie care inițializează și pornește serverul web FastAPI, 
+ascultând cererile API și gestionând rutele definite în aplicație.
+
+Toate cele patru modele suportate de aplicație, precum și sistemul expert, sunt inițializate la pornire și 
+apelează inferența la nevoie. Fiecare model utilizează un format standardizat pentru input și output, asigurând modularitatea și abstractizarea aplicației
+"""
+
 from fastapi import FastAPI, Request, File, UploadFile, Form
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles

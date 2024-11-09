@@ -1,3 +1,14 @@
+"""
+Script: cponstellation_detect.py
+Autor: Covaci Silviu
+Colaboratori: Imre László
+Descriere: Acest cod integrează un model YOLO pentru detectarea constelațiilor din imagini, construit și antrenat de Imre László. 
+
+Codul încarcă modelul furnizat și permite analizarea unei imagini date. A fost proiectat astfel încât să poată fi 
+apelat cu ușurință în cadrul aplicației. Expune două funcții principale: load_model, pentru încărcarea modelului, 
+și predict_image, pentru analiza imaginilor.
+"""
+
 from ultralytics import YOLO
 import os
 import cv2

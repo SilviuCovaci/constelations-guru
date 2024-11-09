@@ -1,3 +1,14 @@
+"""
+Script: cponstellation_detect.py
+Autor: Covaci Silviu
+Colaboratori: Moisi Ferenc
+Descriere: Acest cod integrează un model Swin Transformer pentru detectarea constelațiilor din imagini, construit și antrenat de Moisi Ferenc. 
+
+Codul încarcă modelul furnizat și permite analizarea unei imagini date. A fost proiectat astfel încât să poată fi 
+apelat cu ușurință în cadrul aplicației. Expune două funcții principale: load_model, pentru încărcarea modelului, 
+și predict_image, pentru analiza imaginilor.
+"""
+
 import torch
 import cv2
 import numpy as np

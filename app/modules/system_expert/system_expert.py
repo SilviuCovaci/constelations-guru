@@ -1,3 +1,17 @@
+"""
+Script: system_expert.py
+Autor: Covaci Silviu
+Colaboratori: Padurean Ionut, Silviu Tarca
+Descriere: Acest cod reprezintă o refactorizare a sistemului expert elaborat de Pădurean Ionuț și Silviu Țarcă, 
+oferind funcționalități API printr-o structură orientată pe obiecte
+
+
+Această versiune permite apelarea sistemului expert sub forma unui API. Codul este organizat pe principii 
+orientate pe obiecte (OOP), structurat în două clase, și expune trei metode principale: 
+start, GetQuestion și ProcessAnswer. 
+După fiecare iterație, starea sistemului este salvată automat.
+"""
+
 class Constellation:
     def __init__(self, name, specific_questions, visibility):
         self.name = name
